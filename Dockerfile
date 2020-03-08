@@ -15,7 +15,6 @@ FROM ruby:2.7.0-alpine
 RUN apk add --no-cache mariadb-connector-c
 
 WORKDIR /opt/app
-ENTRYPOINT [ "/bin/sh", "-c" ]
 
 RUN bundle config set deployment 'true'
 RUN bundle config set path 'vendor/bundle'
