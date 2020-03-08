@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'lollipops/index'
-  get 'lollipops/buy'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  get 'purchases', to: 'purchases#index'
+  get 'lollipops', to: 'lollipops#index'
+  post 'lollipops/:id/buy', to: 'lollipops#buy'
 end
