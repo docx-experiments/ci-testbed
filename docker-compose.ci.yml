@@ -5,7 +5,7 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
   test:
-    image: gcr.io/docx-cloudbuild-experiment/ci-testbed:${COMMIT_SHA:-latest}
+    image: ${TEST_IMAGE_NAME}
     environment:
       DATABASE_HOST: mysql
     depends_on:
