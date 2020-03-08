@@ -7,6 +7,8 @@ gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 gem 'puma', '~> 4.1'
 gem 'mysql2'
 
+gem 'tzinfo-data'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
@@ -21,4 +23,3 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
 end
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
