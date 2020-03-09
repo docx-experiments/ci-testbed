@@ -1,0 +1,27 @@
+steps:
+- id: build-image
+  name: 'gcr.io/cloud-builders/docker'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    ( docker pull gcr.io/$PROJECT_ID/$REPO_NAME:branch-$BRANCH_NAME || true ) &&
+    docker build -t gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA -t gcr.io/$PROJECT_ID/$REPO_NAME:branch-$BRANCH_NAME --cache-from gcr.io/$PROJECT_ID/$REPO_NAME:branch-$BRANCH_NAME .
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/$REPO_NAME:branch-$BRANCH_NAME']
+  waitFor:
+  - build-image
+- name: 'docker/compose'
+  args: ['-f', 'docker-compose.ci.yml', '-p', 'parallel_1', 'run', 'test']
+  env:
+  - 'TEST_IMAGE_NAME=gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
+  waitFor:
+  - build-image
+- name: 'docker/compose'
+  args: ['-f', 'docker-compose.ci.yml', '-p', 'parallel_2', 'run', 'test']
+  env:
+  - 'TEST_IMAGE_NAME=gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
+  waitFor: 
+  - build-image
+
+images: [ 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA']
