@@ -12,13 +12,13 @@ steps:
   waitFor:
   - build-image
 - name: 'docker/compose'
-  args: ['-f', 'docker-compose.ci.yml', 'run', 'test']
+  args: ['-f', 'docker-compose.ci.yml', '-p', 'parallel_1', 'run', 'test']
   env:
   - 'TEST_IMAGE_NAME=gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
   waitFor:
   - build-image
 - name: 'docker/compose'
-  args: ['-f', 'docker-compose.ci.yml', 'run', 'test']
+  args: ['-f', 'docker-compose.ci.yml', '-p', 'parallel_2', 'run', 'test']
   env:
   - 'TEST_IMAGE_NAME=gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA'
   waitFor: 
