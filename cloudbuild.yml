@@ -14,11 +14,11 @@ steps:
   - '-c'
   - |
     ( docker pull gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME || true ) &&
-    docker build --target base -t gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME --cache-from gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME .
+    docker build --target base -t gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME --cache-from gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME --cache-from gcr.io/$PROJECT_ID/$REPO_NAME:builder-$BRANCH_NAME .
 - id: build-image
   waitFor: ['build-builder', 'build-base']
   name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:&COMMIT_SHAE', '.']
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA', '--cache-from', 'gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME', '--cache-from', 'gcr.io/$PROJECT_ID/$REPO_NAME:builder-$BRANCH_NAME', '.']
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
   args:
