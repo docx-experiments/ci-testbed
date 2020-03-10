@@ -12,9 +12,12 @@ RUN bundle config deployment true && bundle config path vendor/bundle && bundle 
 FROM ruby:2.7.0-alpine as base
 
 RUN apk add --no-cache bash mariadb-connector-c 
-RUN bundle config deployment true && bundle config path vendor/bundle
 
 FROM base
+
+WORKDIR /opt/app
+
+RUN bundle config deployment true && bundle config path vendor/bundle
 
 COPY . /opt/app
 COPY --from=builder /opt/app/vendor/bundle /opt/app/vendor/bundle
