@@ -11,6 +11,7 @@ RUN bundle install --deployment --jobs 4
 
 FROM ruby:2.7.0-alpine
 
+WORKDIR /opt/app
 RUN apk add --no-cache bash mariadb-connector-c
 
 COPY . /opt/app
