@@ -5,16 +5,16 @@ steps:
   args:
   - '-c'
   - |
-    ( docker pull gcr.io/$PROJECT_ID/$REPO_NAME:builder-$BRANCH_NAME || true )
-    && docker build --target builder -t gcr.io/$PROJECT_ID/$REPO_NAME:builder-$BRANCH_NAME --cache-from gcr.io/$PROJECT_ID/$REPO_NAME:builder-$BRANCH_NAME .
+    ( docker pull gcr.io/$PROJECT_ID/$REPO_NAME:builder-$BRANCH_NAME || true ) &&
+    docker build --target builder -t gcr.io/$PROJECT_ID/$REPO_NAME:builder-$BRANCH_NAME --cache-from gcr.io/$PROJECT_ID/$REPO_NAME:builder-$BRANCH_NAME .
 - id: build-base
   name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
   args:
   - '-c'
   - |
-    ( docker pull gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME || true )
-    && docker build --target base -t gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME --cache-from gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME .
+    ( docker pull gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME || true ) &&
+    docker build --target base -t gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME --cache-from gcr.io/$PROJECT_ID/$REPO_NAME:base-$BRANCH_NAME .
 - id: build-image
   waitFor: ['build-builder', 'build-base']
   name: 'gcr.io/cloud-builders/docker'
