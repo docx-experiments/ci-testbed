@@ -1,7 +1,7 @@
 version: "3"
 services:
   mysql:
-    image: mariadb
+    image: mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
     tmpfs: /var/lib/mysql
