@@ -13,12 +13,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby 2.6
-      uses: actions/setup-ruby@v1
+    - name: Docker Cache
+      id: docker-image-cache
+      uses: actions/cache@v1.1.2
       with:
-        ruby-version: 2.6.x
-    - name: Build and test with Rake
+        path: .docker-cache
+        key: docker-image-${{ hashFiles('Gemfile.lock') }}-${{ hashFiles('Dockerfile') }}
+    - name: Build docker image
       run: |
-        gem install bundler
-        bundle install --jobs 4 --retry 3
-        bundle exec rake
+        [ -f .docker-cache/images.tar ] && docker load -i .docker-cache/images.tar
+        docker build -t ci-testbed:${{ github.sha }} --cache-from ci-testbed:cache .
+        docker tag ci-testbed:${{ github.sha }} ci-testbed:cache
+        mkdir -p .docker-cache
+        docker save -o .docker-cache/images.tar ci-testbed:cache ruby
+    - name: Test
+      run: |
+        export TEST_IMAGE_NAME=ci-testbed:${{ github.sha }}
+        docker-compose -f docker-compose.ci.yml run test
