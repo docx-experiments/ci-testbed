@@ -13,19 +13,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Cache
+    - name: Docker Cache
       id: docker-image-cache
       uses: actions/cache@v1.1.2
       with:
-        path: docker-cache
-        key: docker-image-${{ hashFiles('**/Gemfile.lock') }}
+        path: .docker-cache
+        key: docker-image-${{ hashFiles('**/Gemfile.lock Dockerfile') }}
     - name: Build docker image
       run: |
-        [ -f docker-cache/ci-testbed-cache.tar ] && docker load -i docker-cache/ci-testbed-cache.tar
+        [ -f .docker-cache/images.tar ] && docker load -i .docker-cache/images.tar
         docker build -t ci-testbed:${{ github.sha }} --cache-from ci-testbed:cache .
         docker tag ci-testbed:${{ github.sha }} ci-testbed:cache
-        mkdir -p docker-cache
-        docker save -o docker-cache/ci-testbed-cache.tar ci-testbed:cache
+        mkdir -p .docker-cache
+        docker save -o. docker-cache/images.tar ci-testbed:cache ruby
     - name: Test
       run: |
         export TEST_IMAGE_NAME=ci-testbed:${{ github.sha }}
