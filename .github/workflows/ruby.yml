@@ -13,5 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build and test with Rake
-      run: docker-compose -f docker-compose.ci.yml run test
+    - name: Build docker image
+      run: docker build -t ci-testbed:latest .
+    - name: Test
+      run: |
+        export TEST_IMAGE_NAME=ci-testbed:latest
+        docker-compose -f docker-compose.ci.yml run test
