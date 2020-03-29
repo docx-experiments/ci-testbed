@@ -19,13 +19,12 @@ jobs:
       with:
         path: docker-cache
         key: docker-image-${{ hashFiles('**/Gemfile.lock') }}
-    - name: Load Cached Docker Image
-      if: steps.docker-image-cache.outputs.cache-hit == 'true'
-      run: docker load -i docker-cache/ci-testbed-cache.tar
     - name: Build docker image
       run: |
+        [ -f docker-cache/ci-testbed-cache.tar ] && docker load -i docker-cache/ci-testbed-cache.tar
         docker build -t ci-testbed:${{ github.sha }} --cache-from ci-testbed:cache .
         docker tag ci-testbed:${{ github.sha }} ci-testbed:cache
+        mkdir -p docker-cache
         docker save -o docker-cache/ci-testbed-cache.tar ci-testbed:cache
     - name: Test
       run: |
