@@ -18,7 +18,7 @@ jobs:
       uses: actions/cache@v1.1.2
       with:
         path: .docker-cache
-        key: docker-image-${{ hashFiles('**/Gemfile.lock Dockerfile') }}
+        key: docker-image-${{ hashFiles('Gemfile.lock') }}-${{ hashFiles('Dockerfile') }}
     - name: Build docker image
       run: |
         [ -f .docker-cache/images.tar ] && docker load -i .docker-cache/images.tar
