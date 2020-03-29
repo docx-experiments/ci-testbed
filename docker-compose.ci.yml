@@ -1,9 +1,10 @@
 version: "3"
 services:
   mysql:
-    image: mysql
+    image: mariadb
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    tmpfs: /var/lib/mysql
   test:
     image: ${TEST_IMAGE_NAME}
     environment:
