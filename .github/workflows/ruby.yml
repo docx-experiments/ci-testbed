@@ -25,7 +25,7 @@ jobs:
         docker build -t ci-testbed:${{ github.sha }} --cache-from ci-testbed:cache .
         docker tag ci-testbed:${{ github.sha }} ci-testbed:cache
         mkdir -p .docker-cache
-        docker save -o. docker-cache/images.tar ci-testbed:cache ruby
+        docker save -o .docker-cache/images.tar ci-testbed:cache ruby
     - name: Test
       run: |
         export TEST_IMAGE_NAME=ci-testbed:${{ github.sha }}
