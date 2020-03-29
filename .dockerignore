@@ -4,3 +4,4 @@ log
 .gitignore
 Dockerfile
 docker-compose*.yml
+.docker-cache
