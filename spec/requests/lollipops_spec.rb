@@ -8,12 +8,12 @@ RSpec.describe "Lollipops", type: :request do
     end
 
     it "respond with list of lollipops" do 
-      Lollipop.create(name: "Sweet", price: 300)
+      Lollipop.create(name: "Sweet", price: 200)
       Lollipop.create(name: "Sour", price: 400)
 
       get "/lollipops"
       expect(JSON.parse(response.body)).to include(
-        include({ "name" => "Sweet", "price" => "300.0" }),
+        include({ "name" => "Sweet", "price" => "200.0" }),
         include({ "name" => "Sour", "price" => "400.0" })
       )
     end
