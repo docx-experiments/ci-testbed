@@ -9,6 +9,32 @@ gem 'mysql2'
 
 gem 'tzinfo-data'
 
+gem 'whenever', '0.9.7', require: false
+gem "fluent-logger"
+gem "statsd-client"
+
+gem "activerecord"
+gem "aws-sdk"
+gem "connection_pool"
+gem "choices"
+gem "daemons"
+gem "delayed_job"
+
+gem "faraday"
+gem "gmail_xoauth"
+
+gem "immutable_struct"
+gem 'influxdb'
+gem "invariant"
+
+gem "nokogiri"
+gem "redis"
+
+gem 'yajl-ruby', require: 'yajl'
+
+gem 'rbtrace', require: false
+gem "stackprof", require: false
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
@@ -17,6 +43,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'database_cleaner'
   gem 'database_cleaner-active_record'
+  gem "pry"
 end
 
 group :development do
