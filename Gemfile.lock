@@ -1099,7 +1099,7 @@ GEM
     websocket-extensions (0.1.4)
     whenever (0.9.7)
       chronic (>= 0.6.3)
-    yajl-ruby (1.4.1)
+    yajl-ruby (1.4.3)
     zeitwerk (2.3.0)
 
 PLATFORMS
